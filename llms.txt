@@ -1,0 +1,41 @@
+# bivio.studio
+
+> Growth Marketing Agency che opera in tutta Italia. Aiuta PMI ed e-commerce a crescere con un metodo in tre fasi: Struttura (processi, CRM, dati, automazioni e AI), Community (social media e contenuti) e Performance (Meta Ads, Google Ads, e-commerce). Offre una consulenza gratuita di analisi.
+
+Contatti: tel. 081 185 22008, info@biviostudio.it. Area servita: tutta Italia.
+
+## Servizi
+
+- [Automazione dei processi aziendali e intelligenza artificiale](https://www.biviostudio.it/servizi/automazione-processi-ai.html): Togliamo al team il lavoro ripetitivo con workflow e assistenti AI.
+- [CRM Specialist: implementazione e gestione del CRM per PMI](https://www.biviostudio.it/servizi/crm-specialist.html): Un unico posto per contatti, trattative e follow-up. Nessun lead perso.
+- [Sviluppo siti web e landing page che convertono](https://www.biviostudio.it/servizi/sviluppo-siti-web.html): Siti e landing page veloci, ottimizzati SEO e costruiti per convertire.
+- [Data analytics e tracciamento delle conversioni](https://www.biviostudio.it/servizi/data-analytics.html): Tracciamento corretto e dashboard chiare per decidere con i numeri.
+- [Gestione social media per aziende](https://www.biviostudio.it/servizi/gestione-social-media.html): Strategia, piano editoriale e community management con obiettivi misurabili.
+- [Content creation, foto e video editing per brand e aziende](https://www.biviostudio.it/servizi/content-creation-video.html): Foto, reel, video ads e UGC pensati per fermare lo scroll e convertire.
+- [Meta Ads: campagne Facebook e Instagram che portano clienti](https://www.biviostudio.it/servizi/meta-ads.html): Campagne Facebook e Instagram costruite su dati, creatività e post click.
+- [Google Ads: campagne su Search, Shopping e YouTube](https://www.biviostudio.it/servizi/google-ads.html): Intercettiamo chi ti sta già cercando, su Search, Shopping e YouTube.
+- [E-commerce: sviluppo, ottimizzazione e crescita delle vendite online](https://www.biviostudio.it/servizi/ecommerce.html): Apertura, ottimizzazione e crescita di negozi online su Shopify e WooCommerce.
+- [Consulenza e formazione per team marketing interni](https://www.biviostudio.it/servizi/consulenza-formazione-marketing.html): Affianchiamo il tuo team interno e gli trasferiamo metodo e strumenti.
+
+## Blog
+
+- [Come aumentare il tasso di conversione di un e-commerce: 9 interventi](https://www.biviostudio.it/blog/aumentare-tasso-conversione-ecommerce.html): Nove interventi pratici per aumentare il tasso di conversione di un e-commerce: velocità, schede prodotto, fiducia, carrello, checkout e email automatiche.
+- [Tracciamento delle conversioni con GA4, Tag Manager e Consent Mode v2](https://www.biviostudio.it/blog/tracciamento-conversioni-ga4-tag-manager-consent-mode.html): Come impostare correttamente il tracciamento delle conversioni con Google Analytics 4, Google Tag Manager e Consent Mode v2, evitando gli errori più comuni.
+- [Intelligenza artificiale in azienda: 6 attività da affidare subito all'AI](https://www.biviostudio.it/blog/intelligenza-artificiale-in-azienda-attivita-da-automatizzare.html): Sei usi concreti dell'intelligenza artificiale per PMI in marketing, vendita e assistenza clienti, con indicazioni su strumenti, limiti e privacy.
+- [Parole chiave negative su Google Ads: come smettere di sprecare budget](https://www.biviostudio.it/blog/parole-chiave-negative-google-ads.html): Cosa sono le parole chiave negative, come trovarle nel report dei termini di ricerca e come organizzarle in elenchi per ridurre gli sprechi su Google Ads.
+- [Come scegliere un social media manager: 7 domande da fare prima](https://www.biviostudio.it/blog/scegliere-social-media-manager-domande.html): Le domande da fare a un social media manager o a un'agenzia prima di affidargli i profili della tua azienda, e i segnali che indicano un lavoro professionale.
+- [Lead nurturing: come non perdere i contatti dopo il primo messaggio](https://www.biviostudio.it/blog/lead-nurturing-follow-up-contatti.html): Cos'è il lead nurturing, perché la maggior parte dei contatti non compra subito e come impostare follow-up automatici nel CRM per trasformarli in clienti.
+- [Formazione per il team marketing: un piano in 90 giorni](https://www.biviostudio.it/blog/formazione-team-marketing-piano-90-giorni.html): Un percorso di 90 giorni per formare il team marketing interno su strategia, canali, dati e intelligenza artificiale, con obiettivi misurabili per ogni fase.
+- [Contenuti UGC: cosa sono e come usarli nelle campagne pubblicitarie](https://www.biviostudio.it/blog/contenuti-ugc-cosa-sono-come-usarli-ads.html): Cosa sono i contenuti UGC, perché funzionano nelle ads su Meta e TikTok, come trovare i creator e come scrivere un brief efficace.
+- [Velocità del sito e Core Web Vitals: perché incidono su SEO e vendite](https://www.biviostudio.it/blog/velocita-sito-core-web-vitals-seo-vendite.html): Cosa sono LCP, INP e CLS, come misurarli gratuitamente e quali interventi rendono un sito aziendale più veloce su smartphone.
+- [Pixel di Meta e API Conversioni: guida al tracciamento per Facebook e Instagram Ads](https://www.biviostudio.it/blog/pixel-meta-api-conversioni-guida.html): Cos'è il Pixel di Meta, cosa aggiunge l'API Conversioni, come configurare gli eventi e verificare la qualità della corrispondenza per campagne più efficaci.
+- [KPI di marketing: CAC, LTV e ROAS spiegati in modo semplice](https://www.biviostudio.it/blog/kpi-marketing-cac-ltv-roas.html): Quali KPI di marketing misurare davvero in una PMI: costo per lead, CAC, LTV, ROAS e margine. Definizioni, formule ed esempi pratici.
+- [Google Ads per PMI: Search, Performance Max o Shopping?](https://www.biviostudio.it/blog/google-ads-search-performance-max-shopping.html): Le differenze tra campagne Search, Shopping, Performance Max, YouTube e Demand Gen su Google Ads, e come scegliere quella giusta per la tua azienda.
+- [Landing page che converte: struttura, elementi e errori da evitare](https://www.biviostudio.it/blog/landing-page-che-converte-struttura-ed-errori.html): Gli elementi di una landing page efficace, dall'headline alla call to action, e gli errori che fanno crollare le conversioni delle campagne pubblicitarie.
+- [Team marketing interno o agenzia? Vantaggi, limiti e modello ibrido](https://www.biviostudio.it/blog/team-marketing-interno-o-agenzia.html): Pro e contro di un team marketing interno e di un'agenzia esterna, quando conviene il modello ibrido e come organizzare la collaborazione.
+- [Perché le tue campagne Meta Ads non funzionano: 8 errori comuni](https://www.biviostudio.it/blog/campagne-meta-ads-non-funzionano-errori.html): Spendi in Facebook e Instagram Ads senza risultati? Gli 8 errori più comuni su tracciamento, struttura, creatività e post click, e come correggerli.
+- [CRM per piccole imprese: come scegliere quello giusto](https://www.biviostudio.it/blog/crm-per-piccole-imprese-come-sceglierlo.html): I criteri per scegliere un CRM per PMI: processo di vendita, integrazioni, facilità d'uso, costi e adozione da parte del team. Con gli errori da evitare.
+- [Shopify o WooCommerce: quale scegliere per il tuo e-commerce](https://www.biviostudio.it/blog/shopify-o-woocommerce-quale-scegliere.html): Confronto tra Shopify e WooCommerce su costi, facilità d'uso, personalizzazione, manutenzione, SEO e integrazioni, per scegliere la piattaforma giusta.
+- [Reel aziendali: come strutturare un video che trattiene fino alla fine](https://www.biviostudio.it/blog/reel-aziendali-struttura-video-che-trattiene.html): Hook, ritmo, sottotitoli e call to action: la struttura dei reel aziendali che le persone guardano fino alla fine, con esempi di format per PMI.
+- [Automazione dei processi aziendali: da dove iniziare in 5 passi](https://www.biviostudio.it/blog/automazione-processi-aziendali-da-dove-iniziare.html): Come capire quali processi automatizzare per primi, quali strumenti usare e come evitare gli errori più comuni. Guida pratica per PMI in 5 passi.
+- [Piano editoriale social: come costruirlo in 6 passi](https://www.biviostudio.it/blog/piano-editoriale-social-come-costruirlo.html): Come creare un piano editoriale per i social della tua azienda: obiettivi, pubblico, pilastri dei contenuti, formati, calendario e analisi dei risultati.
