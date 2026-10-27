@@ -164,7 +164,11 @@
     </div>
 
     <div class="fcard">
-      <form id="lead" novalidate data-pre="Automazioni &amp; AI">
+      <form id="lead" name="consulenza" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate data-pre="Automazioni &amp; AI">
+        <input type="hidden" name="form-name" value="consulenza">
+        <input type="hidden" name="pagina" id="f-pagina" value="">
+        <input type="hidden" name="inviato_il" id="f-data" value="">
+        <p hidden><label>Non compilare questo campo: <input name="bot-field" id="f-bot"></label></p>
         <div class="progress" aria-hidden="true"><span class="done"></span><span></span><span></span><span></span></div>
         <div class="step-meta"><span>Passo <b id="stepn">1</b> di 4</span><span id="stepname">I tuoi dati</span></div>
 

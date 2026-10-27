@@ -38,6 +38,7 @@ python3 sorgenti/build.py
 ## Da completare prima della messa online
 
 - **Dominio**: gli URL canonici, la sitemap e i dati strutturati usano `https://www.biviostudio.it/`. Se il dominio è diverso, cambia `BASE` in `sorgenti/build.py` e rigenera.
-- **Modulo di contatto**: in `sorgenti/bivio.js` inserisci l'indirizzo del webhook (Make, Zapier) o del servizio di invio (Web3Forms, Formspree) nella variabile `ENDPOINT`, e per Web3Forms la chiave in `ACCESS_KEY`. Poi rigenera con `python3 sorgenti/build.py`. Finché `ENDPOINT` è vuota, il modulo mostra il riepilogo ma non invia la richiesta. I dati arrivano come modulo standard (form-urlencoded), con un campo per ogni domanda.
+- **Modulo di contatto (Netlify Forms)**: il modulo si chiama `consulenza` ed è già configurato per Netlify (`data-netlify="true"`, campo nascosto `form-name`, honeypot anti-spam). Su Netlify attiva *Site configuration → Forms → Enable form detection*, poi rifai il deploy. Le notifiche si impostano in *Forms → Form notifications*.
+- **Altri servizi**: in alternativa, in `sorgenti/bivio.js` inserisci l'indirizzo del webhook (Make, Zapier) o del servizio di invio (Web3Forms, Formspree) nella variabile `ENDPOINT`, e per Web3Forms la chiave in `ACCESS_KEY`. Poi rigenera con `python3 sorgenti/build.py`. Finché `ENDPOINT` è vuota, il modulo mostra il riepilogo ma non invia la richiesta. I dati arrivano come modulo standard (form-urlencoded), con un campo per ogni domanda.
 - **Dati legali**: P.IVA, privacy policy e cookie policy nel footer.
 - **Immagine di anteprima** per le condivisioni social (`og:image`).

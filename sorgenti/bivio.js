@@ -1,7 +1,10 @@
 (function(){
-  // Collega qui il CRM / webhook (es. Make, Zapier, HubSpot) quando il sito è sul vostro dominio.
-  // Funziona con webhook di Make o Zapier, oppure con Web3Forms / Formspree.
-  var ENDPOINT = "";
+  // Dove inviare le richieste del modulo.
+  // "/" = Netlify Forms (il sito deve essere pubblicato su Netlify con il rilevamento dei moduli attivo).
+  // In alternativa: l'URL di un webhook Make/Zapier o di Web3Forms/Formspree.
+  var ENDPOINT = "/";
+  // In anteprima locale o su Claude non c'è un server che riceve: si mostra solo il riepilogo.
+  var PREVIEW = location.protocol === 'file:' || /claude|anthropic/i.test(location.hostname);
   // Solo per Web3Forms: incolla qui la tua access key (per gli altri servizi lascia vuoto).
   var ACCESS_KEY = "";
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -219,9 +222,10 @@
 
   var labels = {nome:'Nome',cognome:'Cognome',ruolo:'Ruolo',email:'Email',telefono:'Telefono',contatto:'Contatto preferito',fascia:'Fascia oraria',azienda:'Azienda',sito:'Sito / social',settore:'Settore',citta:'Città',modello:'Clienti',dipendenti:'Persone',fatturato:'Fatturato',anni_attivita:'Attività da',obiettivo:'Obiettivo',servizi:'Servizi di interesse',canali:'Canali attivi',gestione_contatti:'Gestione contatti',spesa_ads:'Spesa ads attuale',budget:'Budget previsto',tempistiche:'Partenza',fonte:'Ci ha conosciuto tramite'};
   function submit(){
+    var fp = $('#f-pagina'), fd = $('#f-data');
+    if(fp) fp.value = document.title + ' (' + location.pathname + ')';
+    if(fd) fd.value = new Date().toLocaleString('it-IT', {dateStyle:'short', timeStyle:'short'});
     var data = collect();
-    data.inviato_il = new Date().toISOString();
-    data.pagina = document.title;
     var done = function(sent){
       var rc = $('#recap'); rc.innerHTML='';
       ['nome','azienda','email','telefono','contatto','settore','obiettivo','servizi','budget','tempistiche'].forEach(function(k){
@@ -236,13 +240,14 @@
       try{ localStorage.removeItem(KEY); }catch(e){}
       var t = $('.fcard').getBoundingClientRect().top; if(t<70) scrollBy({top:t-90,behavior:reduce?'auto':'smooth'});
     };
-    if(!ENDPOINT){ done(false); return; }
+    if(!ENDPOINT || PREVIEW){ done(false); return; }
+    if(data['bot-field']){ done(true); return; }
     next.disabled = true; next.textContent = 'Invio in corso…';
     // Invio come modulo standard: niente preflight CORS, accettato da Make, Zapier, Web3Forms e Formspree.
     var body = new URLSearchParams();
     Object.keys(data).forEach(function(k){ body.append(k, [].concat(data[k]).join(', ')); });
     if(ACCESS_KEY){ body.append('access_key', ACCESS_KEY); body.append('subject', 'Nuova richiesta di consulenza: ' + (data.azienda || data.nome)); body.append('from_name', 'Sito bivio.studio'); }
-    if(data.email){ body.append('replyto', data.email); }
+    if(data.email && ENDPOINT !== '/'){ body.append('replyto', data.email); }
     var fail = function(){ next.disabled=false; next.innerHTML='Riprova <span class="arr">→</span>'; $('#saved').textContent='Invio non riuscito. Controlla la connessione e riprova, oppure chiamaci allo 081 185 22008.'; };
     fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:body})
       .then(function(r){ if(!r.ok) throw new Error('http'); done(true); })

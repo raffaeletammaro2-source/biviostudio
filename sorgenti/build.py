@@ -179,7 +179,13 @@ def form_section(preselect=None, title=None, lead=None):
 '''
     f = FORMSEC.replace(chips_old, grp)
     pre = E(SERVICE_BY_SLUG[preselect]["form"]) if preselect else ""
-    f = f.replace('<form id="lead" novalidate>', f'<form id="lead" novalidate data-pre="{pre}">')
+    # Netlify Forms: nome del modulo, attributo data-netlify, honeypot anti-spam e campi nascosti
+    f = f.replace('<form id="lead" novalidate>',
+        f'<form id="lead" name="consulenza" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate data-pre="{pre}">\n'
+        '        <input type="hidden" name="form-name" value="consulenza">\n'
+        '        <input type="hidden" name="pagina" id="f-pagina" value="">\n'
+        '        <input type="hidden" name="inviato_il" id="f-data" value="">\n'
+        '        <p hidden><label>Non compilare questo campo: <input name="bot-field" id="f-bot"></label></p>')
     if title:
         f = f.replace('<h2 class="h2" style="margin-top:16px">Prenota la tua analisi di crescita.</h2>', f'<h2 class="h2" style="margin-top:16px">{title}</h2>')
     if lead:
