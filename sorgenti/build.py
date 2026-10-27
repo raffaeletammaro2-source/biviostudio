@@ -166,18 +166,8 @@ def footer(root):
 """
 
 # ---------- partial: modulo con servizi aggiornati
-chips_old = re.search(r'          <div class="group">\s*<span class="lab">Quali servizi ti interessano\?.*?</div>\s*</div>\n', FORMSEC, re.S).group(0)
 def form_section(preselect=None, title=None, lead=None):
-    chips = "".join(
-        f'<label class="chip"><input type="checkbox" name="servizi" value="{E(SERVICE_BY_SLUG[s]["form"])}" id="sv-{i+1}"{" checked" if preselect == s else ""}><span>{E(SERVICE_BY_SLUG[s]["name"])}</span></label>'
-        for i, s in enumerate(ORDER))
-    chips += '<label class="chip"><input type="checkbox" name="servizi" value="Non so ancora" id="sv-11"><span>Non lo so ancora</span></label>'
-    grp = f'''          <div class="group">
-            <span class="lab">Quali servizi ti interessano? <span style="font-weight:500;color:var(--muted);font-size:13px">(facoltativo, anche più di uno)</span></span>
-            <div class="chips">{chips}</div>
-          </div>
-'''
-    f = FORMSEC.replace(chips_old, grp)
+    f = FORMSEC
     pre = E(SERVICE_BY_SLUG[preselect]["form"]) if preselect else ""
     # Netlify Forms: nome del modulo, attributo data-netlify, honeypot anti-spam e campi nascosti
     f = f.replace('<form id="lead" novalidate>',

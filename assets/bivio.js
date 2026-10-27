@@ -152,7 +152,6 @@
     if(el.required && !v) return false;
     if(el.type==='email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return false;
     if(el.type==='tel' && v && v.replace(/\D/g,'').length < 8) return false;
-    if(el.id==='problema' && v.length < 20) return false;
     return true;
   }
   function validate(i){
@@ -228,7 +227,7 @@
     var data = collect();
     var done = function(sent){
       var rc = $('#recap'); rc.innerHTML='';
-      ['nome','azienda','email','telefono','contatto','settore','obiettivo','servizi','budget','tempistiche'].forEach(function(k){
+      ['nome','azienda','email','telefono','contatto','settore','obiettivo','spesa_ads','budget'].forEach(function(k){
         if(!data[k]) return;
         var row = document.createElement('div'), dt=document.createElement('dt'), dd=document.createElement('dd');
         dt.textContent = labels[k]; dd.textContent = k==='nome' ? data.nome+' '+data.cognome : [].concat(data[k]).join(', ');

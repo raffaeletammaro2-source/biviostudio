@@ -250,50 +250,22 @@
             </div>
             <span class="err" style="margin-top:8px">Scegli l'obiettivo principale.</span>
           </div>
-          <div class="group">
-            <span class="lab">Quali servizi ti interessano? <span style="font-weight:500;color:var(--muted);font-size:13px">(facoltativo, anche più di uno)</span></span>
-            <div class="chips"><label class="chip"><input type="checkbox" name="servizi" value="Automazioni &amp; AI" id="sv-1"><span>Automazioni &amp; AI</span></label><label class="chip"><input type="checkbox" name="servizi" value="CRM Specialist" id="sv-2"><span>CRM Specialist</span></label><label class="chip"><input type="checkbox" name="servizi" value="Siti web &amp; landing page" id="sv-3"><span>Siti web &amp; landing page</span></label><label class="chip"><input type="checkbox" name="servizi" value="Data analytics" id="sv-4"><span>Data analytics &amp; tracciamento</span></label><label class="chip"><input type="checkbox" name="servizi" value="Gestione social media" id="sv-5"><span>Gestione social media</span></label><label class="chip"><input type="checkbox" name="servizi" value="Content creation &amp; video" id="sv-6"><span>Content creation &amp; video</span></label><label class="chip"><input type="checkbox" name="servizi" value="Meta Ads" id="sv-7"><span>Meta Ads</span></label><label class="chip"><input type="checkbox" name="servizi" value="Google Ads" id="sv-8" checked><span>Google Ads</span></label><label class="chip"><input type="checkbox" name="servizi" value="E-commerce" id="sv-9"><span>E-commerce</span></label><label class="chip"><input type="checkbox" name="servizi" value="Consulenza &amp; formazione team" id="sv-10"><span>Consulenza &amp; formazione</span></label><label class="chip"><input type="checkbox" name="servizi" value="Non so ancora" id="sv-11"><span>Non lo so ancora</span></label></div>
-          </div>
-          <div class="group">
-            <span class="lab">Cosa usi già oggi? <span style="font-weight:500;color:var(--muted);font-size:13px">(tutti quelli che valgono)</span></span>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="canali" value="Sito web" id="cn-1"><span>Sito web</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="E-commerce" id="cn-2"><span>E-commerce</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Instagram" id="cn-3"><span>Instagram</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Facebook" id="cn-4"><span>Facebook</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="TikTok" id="cn-5"><span>TikTok</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="LinkedIn" id="cn-6"><span>LinkedIn</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Meta Ads" id="cn-7"><span>Meta Ads</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Google Ads" id="cn-8"><span>Google Ads</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Newsletter" id="cn-9"><span>Newsletter</span></label>
-              <label class="chip"><input type="checkbox" name="canali" value="Nessuno" id="cn-10"><span>Ancora niente</span></label>
-            </div>
-          </div>
           <div class="row">
-            <div class="field"><label for="gest">Dove gestisci i contatti?</label>
-              <select id="gest" name="gestione_contatti" required><option value="">Seleziona…</option><option>WhatsApp e telefono</option><option>Email e fogli Excel</option><option>Un CRM (HubSpot, Pipedrive…)</option><option>Un gestionale interno</option><option>Non li gestiamo in modo strutturato</option></select>
-              <span class="err">Seleziona un'opzione.</span></div>
             <div class="field"><label for="ads">Spesa ads mensile attuale</label>
               <select id="ads" name="spesa_ads" required><option value="">Seleziona…</option><option>Nessuna</option><option>Meno di 500 €</option><option>500 – 1.500 €</option><option>1.500 – 5.000 €</option><option>Oltre 5.000 €</option></select>
               <span class="err">Seleziona una fascia.</span></div>
-          </div>
-          <div class="row">
             <div class="field"><label for="budget">Budget marketing mensile previsto</label>
               <select id="budget" name="budget" required><option value="">Seleziona…</option><option>Fino a 1.000 €</option><option>1.000 – 3.000 €</option><option>3.000 – 7.000 €</option><option>Oltre 7.000 €</option><option>Da definire insieme</option></select>
               <span class="err">Seleziona una fascia.</span></div>
-            <div class="field"><label for="tempi">Quando vuoi partire?</label>
-              <select id="tempi" name="tempistiche" required><option value="">Seleziona…</option><option>Subito</option><option>Entro 1–3 mesi</option><option>Entro 3–6 mesi</option><option>Sto solo valutando</option></select>
-              <span class="err">Seleziona una tempistica.</span></div>
           </div>
         </fieldset>
 
         <!-- STEP 4 -->
         <fieldset class="fstep" data-name="Ultimi dettagli">
           <legend>Raccontaci il problema</legend>
-          <p class="hint">Qual è oggi il collo di bottiglia che ti frena di più?</p>
-          <div class="field"><label for="problema">La tua situazione</label>
-            <textarea id="problema" name="problema" required maxlength="1500" placeholder="Es. riceviamo richieste da Instagram ma molte si perdono su WhatsApp, e non sappiamo quanto ci costa un cliente."></textarea>
-            <span class="err">Scrivi almeno qualche parola (minimo 20 caratteri).</span></div>
+          <p class="hint">Qual è oggi il collo di bottiglia che ti frena di più? È facoltativo, ma ci aiuta a preparare la call.</p>
+          <div class="field"><label for="problema">La tua situazione <span class="opt">(facoltativo)</span></label>
+            <textarea id="problema" name="problema" maxlength="1500" placeholder="Es. riceviamo richieste da Instagram ma molte si perdono su WhatsApp, e non sappiamo quanto ci costa un cliente."></textarea></div>
           <div class="field"><label for="tentato">Cosa avete già provato? <span class="opt">(facoltativo)</span></label>
             <textarea id="tentato" name="gia_provato" maxlength="1000" style="min-height:90px" placeholder="Altre agenzie, campagne fai da te, consulenti…"></textarea></div>
           <div class="field"><label for="fonte">Come ci hai conosciuto?</label>
