@@ -337,8 +337,8 @@ for s in SERVICES:
 
 <section class="s">
   <div class="wrap split">
-    <div class="box reveal"><h3>Per chi è questo servizio</h3><ul class="ticks">{perchi}</ul></div>
-    <div class="box reveal rel"><h3>Funziona ancora meglio con</h3>{rel}<a href="{R}servizi/index.html">Tutto l'ecosistema <small>10 servizi →</small></a></div>
+    <div class="sbox reveal"><h3>Per chi è questo servizio</h3><ul class="ticks">{perchi}</ul></div>
+    <div class="sbox reveal rel"><h3>Funziona ancora meglio con</h3>{rel}<a href="{R}servizi/index.html">Tutto l'ecosistema <small>10 servizi →</small></a></div>
   </div>
 </section>
 
