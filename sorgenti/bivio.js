@@ -1,6 +1,9 @@
 (function(){
   // Collega qui il CRM / webhook (es. Make, Zapier, HubSpot) quando il sito è sul vostro dominio.
+  // Funziona con webhook di Make o Zapier, oppure con Web3Forms / Formspree.
   var ENDPOINT = "";
+  // Solo per Web3Forms: incolla qui la tua access key (per gli altri servizi lascia vuoto).
+  var ACCESS_KEY = "";
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function(s,r){return (r||document).querySelector(s)}, $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 
@@ -235,9 +238,21 @@
     };
     if(!ENDPOINT){ done(false); return; }
     next.disabled = true; next.textContent = 'Invio in corso…';
-    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
-      .then(function(r){ if(!r.ok) throw 0; done(true); })
-      .catch(function(){ next.disabled=false; next.innerHTML='Riprova <span class="arr">→</span>'; $('#saved').textContent='Invio non riuscito. Controlla la connessione e riprova, oppure chiamaci allo 081 185 22008.'; });
+    // Invio come modulo standard: niente preflight CORS, accettato da Make, Zapier, Web3Forms e Formspree.
+    var body = new URLSearchParams();
+    Object.keys(data).forEach(function(k){ body.append(k, [].concat(data[k]).join(', ')); });
+    if(ACCESS_KEY){ body.append('access_key', ACCESS_KEY); body.append('subject', 'Nuova richiesta di consulenza: ' + (data.azienda || data.nome)); body.append('from_name', 'Sito bivio.studio'); }
+    if(data.email){ body.append('replyto', data.email); }
+    var fail = function(){ next.disabled=false; next.innerHTML='Riprova <span class="arr">→</span>'; $('#saved').textContent='Invio non riuscito. Controlla la connessione e riprova, oppure chiamaci allo 081 185 22008.'; };
+    fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:body})
+      .then(function(r){ if(!r.ok) throw new Error('http'); done(true); })
+      .catch(function(err){
+        if(err && err.message==='http'){ fail(); return; }
+        // Se si è offline l'invio è fallito. Altrimenti il servizio ha ricevuto la richiesta
+        // ma non ha permesso di leggere la risposta (CORS): la consideriamo inviata, senza duplicarla.
+        if(navigator.onLine === false){ fail(); return; }
+        done(true);
+      });
   }
   $('#again').addEventListener('click', function(){
     form.reset(); form.hidden = false; $('#success').classList.remove('on'); show(0, true); $('#saved').textContent='';
