@@ -188,16 +188,6 @@
             <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required><span class="err">Inserisci un'email valida, es. nome@azienda.it</span></div>
             <div class="field"><label for="tel">Telefono</label><input id="tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+39 …"><span class="err">Inserisci un numero valido (almeno 8 cifre).</span></div>
           </div>
-          <div class="group" data-req="contatto">
-            <span class="lab">Come preferisci essere contattato?</span>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="contatto" value="Telefono" id="ct-tel"><span>Telefono</span></label>
-              <label class="chip"><input type="radio" name="contatto" value="WhatsApp" id="ct-wa"><span>WhatsApp</span></label>
-              <label class="chip"><input type="radio" name="contatto" value="Email" id="ct-mail"><span>Email</span></label>
-              <label class="chip"><input type="radio" name="contatto" value="Videocall" id="ct-vid"><span>Videocall</span></label>
-            </div>
-            <span class="err">Scegli un canale.</span>
-          </div>
           <div class="group">
             <span class="lab">Fascia oraria preferita <span class="opt" style="font-weight:500;color:var(--muted);font-size:13px">(facoltativo)</span></span>
             <div class="chips">
@@ -231,17 +221,9 @@
             </div>
             <span class="err">Scegli un'opzione.</span>
           </div>
-          <div class="row">
-            <div class="field"><label for="dip">Persone in azienda</label>
-              <select id="dip" name="dipendenti" required><option value="">Seleziona…</option><option>Solo io</option><option>2–5</option><option>6–15</option><option>16–50</option><option>51–250</option><option>Oltre 250</option></select>
-              <span class="err">Seleziona una fascia.</span></div>
-            <div class="field"><label for="fatt">Fatturato annuo</label>
+          <div class="field"><label for="fatt">Fatturato annuo</label>
               <select id="fatt" name="fatturato" required><option value="">Seleziona…</option><option>Fino a 100.000 €</option><option>100.000 – 500.000 €</option><option>500.000 € – 1 mln</option><option>1 – 5 mln €</option><option>Oltre 5 mln €</option><option>Preferisco non dirlo</option></select>
               <span class="err">Seleziona una fascia.</span></div>
-          </div>
-          <div class="field"><label for="anni">Da quanto è attiva l'azienda?</label>
-            <select id="anni" name="anni_attivita" required><option value="">Seleziona…</option><option>In fase di avvio</option><option>Meno di 2 anni</option><option>2–5 anni</option><option>5–10 anni</option><option>Oltre 10 anni</option></select>
-            <span class="err">Seleziona un'opzione.</span></div>
         </fieldset>
 
         <!-- STEP 3 -->
@@ -296,7 +278,7 @@
       <div class="success" id="success" aria-live="polite">
         <svg class="burst" viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#FF5B1F"/><path d="M26 43l11 11 22-24" stroke="#F5F1EA" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:60;stroke-dashoffset:60;animation:draw .6s .2s var(--ease) forwards;--len:60"/></svg>
         <h3 id="ok-title">Grazie! Hai fatto la scelta giusta.</h3>
-        <p class="lead">Studiamo le tue risposte e ti ricontattiamo con il canale che hai indicato per fissare la consulenza.</p>
+        <p class="lead">Studiamo le tue risposte e ti ricontattiamo per fissare la consulenza.</p>
         <dl class="recap" id="recap"></dl>
         <p class="preview-note" id="pnote" hidden>Versione di anteprima: il modulo non è ancora collegato a un CRM, quindi questa richiesta non è stata inviata. Il riepilogo mostra i dati che riceverai.</p>
         <button type="button" class="linkbtn" id="again" style="margin-top:12px">Compila una nuova richiesta</button>

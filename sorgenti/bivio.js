@@ -227,7 +227,7 @@
     var data = collect();
     var done = function(sent){
       var rc = $('#recap'); rc.innerHTML='';
-      ['nome','azienda','email','telefono','contatto','settore','obiettivo','spesa_ads','budget'].forEach(function(k){
+      ['nome','azienda','email','telefono','settore','obiettivo','spesa_ads','budget'].forEach(function(k){
         if(!data[k]) return;
         var row = document.createElement('div'), dt=document.createElement('dt'), dd=document.createElement('dd');
         dt.textContent = labels[k]; dd.textContent = k==='nome' ? data.nome+' '+data.cognome : [].concat(data[k]).join(', ');
