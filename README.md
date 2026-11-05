@@ -46,7 +46,7 @@ python3 sorgenti/build.py
 
 ## Tracciamento (Google Tag Manager)
 
-Contenitore GTM: `GTM-MSNJJSQV` (in `GTM_ID` in `sorgenti/build.py`). Lo snippet viene aggiunto in tutte le pagine subito dopo il banner cookie di iubenda.
+Contenitore GTM: `GTM-MSNJJSQV` · GA4: `G-4RSX95QTTX` · Meta Pixel: `3016146428727785` (GA4 e Meta si configurano in GTM, non nel codice). L'ID del contenitore è in `GTM_ID` in `sorgenti/build.py`; lo snippet viene aggiunto in tutte le pagine subito dopo il banner cookie di iubenda.
 
 Il sito invia questi eventi al `dataLayer`:
 
