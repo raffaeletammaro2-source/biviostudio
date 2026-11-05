@@ -146,6 +146,15 @@
   }, true);
   function e164(v){ var d = (v || '').replace(/[^\d+]/g, ''); if(!d) return ''; if(d.charAt(0) === '+') return d; if(d.indexOf('00') === 0) return '+' + d.slice(2); return '+39' + d; }
   function eventId(){ return 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
+  /* Dati per l'API Conversioni di Meta: ID evento condiviso con il pixel, cookie _fbp/_fbc e consenso marketing (iubenda, finalità 5) */
+  function ck(n){ var m = document.cookie.match('(?:^|;\\s*)' + n + '=([^;]+)'); return m ? decodeURIComponent(m[1]) : ''; }
+  function metaFields(){
+    var fbc = ck('_fbc'), q = new URLSearchParams(location.search).get('fbclid');
+    if(!fbc && q) fbc = 'fb.1.' + Date.now() + '.' + q;
+    var ads = false;
+    try { var p = window._iub && _iub.cs && _iub.cs.consent && _iub.cs.consent.purposes; if(p && typeof p[5] !== 'undefined') ads = !!p[5]; else ads = !!ck('_fbp'); } catch(e){ ads = !!ck('_fbp'); }
+    return {event_id: eventId(), fbp: ck('_fbp'), fbc: fbc, consenso_ads: ads ? 'si' : 'no'};
+  }
 
   /* Barra CTA mobile */
   var mbar = $('#mbar'), formSec = $('#consulenza'), ticking=false;
@@ -250,6 +259,8 @@
     var fp = $('#f-pagina'), fd = $('#f-data');
     if(fp) fp.value = document.title + ' (' + location.pathname + ')';
     if(fd) fd.value = new Date().toLocaleString('it-IT', {dateStyle:'short', timeStyle:'short'});
+    var mf = metaFields();
+    [['f-evid','event_id'],['f-fbp','fbp'],['f-fbc','fbc'],['f-cads','consenso_ads']].forEach(function(x){ var el = $('#' + x[0]); if(el) el.value = mf[x[1]]; });
     var data = collect();
     var done = function(sent){
       var rc = $('#recap'); rc.innerHTML='';
@@ -264,7 +275,7 @@
       form.hidden = true; $('#success').classList.add('on');
       try{ localStorage.removeItem(KEY); }catch(e){}
       if(sent && !data['bot-field']){
-        dl('generate_lead', {form_name: 'consulenza', event_id: eventId(), page_type: PAGE_TYPE, service: SERVICE,
+        dl('generate_lead', {form_name: 'consulenza', event_id: data.event_id, page_type: PAGE_TYPE, service: SERVICE,
           settore: data.settore || '', obiettivo: data.obiettivo || '', budget: data.budget || '', spesa_ads: data.spesa_ads || '',
           user_data: {email: (data.email || '').trim().toLowerCase(), phone_number: e164(data.telefono),
                       address: {first_name: (data.nome || '').trim().toLowerCase(), last_name: (data.cognome || '').trim().toLowerCase(), country: 'it'}}});

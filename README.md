@@ -57,3 +57,9 @@ Il sito invia questi eventi al `dataLayer`:
 | `form_start` | primo campo compilato | `form_name`, `page_type`, `service` |
 | `form_step` | passaggio allo step successivo (modulo consulenza) | `form_name`, `form_step`, `form_step_name` |
 | `generate_lead` | richiesta inviata con successo | `form_name` (`consulenza` o `all-upside-challenge`), `event_id`, `page_type`, `service`, `settore`, `obiettivo`, `budget`, `spesa_ads`, `user_data` (email, telefono, nome per Enhanced Conversions e Advanced Matching) |
+
+## API Conversioni di Meta
+
+`netlify/functions/submission-created.js` viene eseguita da Netlify a ogni invio verificato dei moduli `consulenza` e `all-upside-challenge` e invia a Meta un evento `Lead` lato server, con lo stesso `event_id` del pixel (Meta deduplica). Parte solo se il visitatore ha dato il consenso marketing nel banner (campo nascosto `consenso_ads`).
+
+Variabili d'ambiente su Netlify: `META_PIXEL_ID`, `META_ACCESS_TOKEN`, e solo durante i test `META_TEST_EVENT_CODE`. Facoltativa `META_API_VERSION` (predefinita `v23.0`). La funzione viene pubblicata solo con i deploy collegati al repository GitHub (non con il caricamento manuale della cartella).

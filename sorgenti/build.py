@@ -176,6 +176,10 @@ def form_section(preselect=None, title=None, lead=None):
         '        <input type="hidden" name="form-name" value="consulenza">\n'
         '        <input type="hidden" name="pagina" id="f-pagina" value="">\n'
         '        <input type="hidden" name="inviato_il" id="f-data" value="">\n'
+        '        <input type="hidden" name="event_id" id="f-evid" value="">\n'
+        '        <input type="hidden" name="fbp" id="f-fbp" value="">\n'
+        '        <input type="hidden" name="fbc" id="f-fbc" value="">\n'
+        '        <input type="hidden" name="consenso_ads" id="f-cads" value="">\n'
         '        <p hidden><label>Non compilare questo campo: <input name="bot-field" id="f-bot"></label></p>')
     if title:
         f = f.replace('<h2 class="h2" style="margin-top:16px">Prenota la tua analisi di crescita.</h2>', f'<h2 class="h2" style="margin-top:16px">{title}</h2>')
@@ -537,10 +541,19 @@ def build_aus():
     rp('<body>\n', '<body>\n' + GTM_BODY)
     # Tracciamento: lead solo se inviato davvero, più form_start, cta_click e contact_click
     rp("window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'candidatura_all_upside', settore:data.settore});",
-       "window.dataLayer=window.dataLayer||[]; if(CONFIG.endpoint && !PREVIEW && !data['bot-field']){ var nn=(data.nome_cognome||'').trim().toLowerCase().split(/\\s+/), ph=(data.whatsapp||'').replace(/[^\\d+]/g,''); ph = ph.charAt(0)==='+' ? ph : (ph.indexOf('00')===0 ? '+'+ph.slice(2) : '+39'+ph); window.dataLayer.push({event:'generate_lead', form_name:'all-upside-challenge', event_id:'lead_'+Date.now()+'_'+Math.random().toString(36).slice(2,8), page_type:'landing', settore:data.settore, user_data:{email:(data.email||'').trim().toLowerCase(), phone_number:ph, address:{first_name:nn[0]||'', last_name:nn.slice(1).join(' '), country:'it'}}}); }")
+       "window.dataLayer=window.dataLayer||[]; if(CONFIG.endpoint && !PREVIEW && !data['bot-field']){ var nn=(data.nome_cognome||'').trim().toLowerCase().split(/\\s+/), ph=(data.whatsapp||'').replace(/[^\\d+]/g,''); ph = ph.charAt(0)==='+' ? ph : (ph.indexOf('00')===0 ? '+'+ph.slice(2) : '+39'+ph); window.dataLayer.push({event:'generate_lead', form_name:'all-upside-challenge', event_id:data.event_id, page_type:'landing', settore:data.settore, user_data:{email:(data.email||'').trim().toLowerCase(), phone_number:ph, address:{first_name:nn[0]||'', last_name:nn.slice(1).join(' '), country:'it'}}}); }")
     rp('</body>', """<script>
 /* Tracciamento: form_start, cta_click, contact_click per Google Tag Manager */
 (function(){
+  /* Dati per l'API Conversioni di Meta: ID evento condiviso con il pixel, cookie _fbp/_fbc e consenso marketing */
+  window.bivioMeta = function(){
+    function ck(n){ var m = document.cookie.match('(?:^|;\\\\s*)' + n + '=([^;]+)'); return m ? decodeURIComponent(m[1]) : ''; }
+    var fbc = ck('_fbc'), q = new URLSearchParams(location.search).get('fbclid');
+    if(!fbc && q) fbc = 'fb.1.' + Date.now() + '.' + q;
+    var ads = false;
+    try { var p = window._iub && _iub.cs && _iub.cs.consent && _iub.cs.consent.purposes; if(p && typeof p[5] !== 'undefined') ads = !!p[5]; else ads = !!ck('_fbp'); } catch(e){ ads = !!ck('_fbp'); }
+    return {event_id: 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8), fbp: ck('_fbp'), fbc: fbc, consenso_ads: ads ? 'si' : 'no'};
+  };
   window.dataLayer = window.dataLayer || [];
   var f = document.getElementById('form'), started = false;
   f.addEventListener('input', function(){ if(!started){ started = true; dataLayer.push({event:'form_start', form_name:'all-upside-challenge', page_type:'landing'}); } });
@@ -571,10 +584,15 @@ def build_aus():
         <input type="hidden" name="form-name" value="all-upside-challenge">
         <input type="hidden" name="pagina" value="All Upside Challenge">
         <input type="hidden" name="inviato_il" value="">
+        <input type="hidden" name="event_id" value="">
+        <input type="hidden" name="fbp" value="">
+        <input type="hidden" name="fbc" value="">
+        <input type="hidden" name="consenso_ads" value="">
         <p hidden><label>Non compilare questo campo: <input name="bot-field"></label></p>""")
     rp("""var CONFIG = { endpoint: '' };""", """var CONFIG = { endpoint: '/' }; // '/' = Netlify Forms (modulo "all-upside-challenge")
 // In anteprima locale o su Claude non c'è un server che riceve: si mostra solo la conferma.
 var PREVIEW = location.protocol === 'file:' || /claude|anthropic/i.test(location.hostname);""")
+    rp("var data={}; new FormData(form).forEach(", "var mf=window.bivioMeta?window.bivioMeta():{}; ['event_id','fbp','fbc','consenso_ads'].forEach(function(k){ if(form.elements[k]) form.elements[k].value=mf[k]||''; });\n    var data={}; new FormData(form).forEach(")
     rp("data.privacy = priv.checked; data.pagina='All Upside Challenge'; data.inviato_il=new Date().toISOString();",
        "data.privacy = priv.checked ? 'si' : 'no'; data.pagina='All Upside Challenge'; data.inviato_il=new Date().toLocaleString('it-IT',{dateStyle:'short',timeStyle:'short'});")
     rp("if(!CONFIG.endpoint){ setTimeout(done,900); return; }", "if(!CONFIG.endpoint || PREVIEW){ setTimeout(done,900); return; }\n    if(data['bot-field']){ done(); return; }")
