@@ -223,7 +223,7 @@ def crumbs_ld(items):
 IUBENDA = open(os.path.join(B, "iubenda.html"), encoding="utf-8").read()
 
 # Google Tag Manager: inserisci l'ID del contenitore (es. "GTM-ABC1234") e rigenera il sito.
-GTM_ID = ""
+GTM_ID = "GTM-MSNJJSQV"
 GTM_HEAD = f"""<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
 new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
