@@ -219,10 +219,13 @@ def faq_ld(faqs):
 def crumbs_ld(items):
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": i+1, "name": n, "item": BASE + u} for i, (n, u) in enumerate(items)]}
 
+# Banner cookie iubenda: inserito subito dopo <head> in ogni pagina
+IUBENDA = open(os.path.join(B, "iubenda.html"), encoding="utf-8").read()
+
 def page(headpart, body, full=True):
     if not full:
         return headpart + body
-    return f'<!doctype html>\n<html lang="it">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n{headpart}</head>\n<body>\n{body}</body>\n</html>\n'
+    return f'<!doctype html>\n<html lang="it">\n<head>\n{IUBENDA}<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n{headpart}</head>\n<body>\n{body}</body>\n</html>\n'
 
 def write(path, txt):
     open(os.path.join(OUT, path), "w", encoding="utf-8").write(txt)
@@ -514,6 +517,7 @@ def build_aus():
       crumbs_ld([("Home", ""), ("All Upside Challenge", path)]),
     ]
     lds = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
+    rp('<head>\n', '<head>\n' + IUBENDA)
     rp('<meta property="og:title"', f"""<link rel="canonical" href="{BASE}{path}">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website">
