@@ -197,3 +197,10 @@ footer .svc-links{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
 .sym[aria-pressed="true"] .box{transform:scale(1.1)}
 .score{padding-top:14px}
 .score .n{font-size:32px}
+
+/* voce di menu All Upside Challenge */
+.nav .menu a.hot{display:inline-flex;align-items:center;gap:8px;color:var(--a);font-weight:700}
+.nav .menu a.hot i{width:8px;height:8px;border-radius:50%;background:var(--a);box-shadow:0 0 0 0 rgba(255,197,61,.6);animation:hotPulse 2s ease-out infinite}
+.nav .menu a.hot:hover,.nav .menu a.hot[aria-current="page"]{color:var(--o)}
+@keyframes hotPulse{0%{box-shadow:0 0 0 0 rgba(255,197,61,.55)}70%{box-shadow:0 0 0 8px rgba(255,197,61,0)}100%{box-shadow:0 0 0 0 rgba(255,197,61,0)}}
+@media(max-width:1120px){.nav .menu{display:none}.burger{display:grid}}

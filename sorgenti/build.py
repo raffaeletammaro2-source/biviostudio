@@ -122,6 +122,7 @@ def nav(root, cur=""):
         <li><a href="{anchor('perchi')}">Per chi</a></li>
         <li><a href="{root}blog/index.html"{ac('blog')}>Blog</a></li>
         <li><a href="{anchor('faq')}">FAQ</a></li>
+        <li><a class="hot" href="{root}all-upside-challenge.html"{ac('aus')}><i aria-hidden="true"></i>All Upside Challenge</a></li>
       </ul>
     </nav>
     <div class="nav-r">
@@ -131,7 +132,7 @@ def nav(root, cur=""):
   </div>
 </header>
 <div class="mnav" id="mnav" hidden>
-  <div class="big"><a href="{hu}">Home</a><a href="{root}servizi/index.html">I servizi</a><a href="{root}blog/index.html">Blog</a><a href="{anchor('metodo')}">Metodo</a><a href="{anchor('faq')}">FAQ</a></div>
+  <div class="big"><a href="{hu}">Home</a><a href="{root}servizi/index.html">I servizi</a><a href="{root}all-upside-challenge.html">All Upside Challenge</a><a href="{root}blog/index.html">Blog</a><a href="{anchor('metodo')}">Metodo</a><a href="{anchor('faq')}">FAQ</a></div>
   {mcols}
 </div>
 """
@@ -152,7 +153,7 @@ def footer(root):
     </div>
     <div>
       <h4>Esplora</h4>
-      <div class="fl"><a href="{root}servizi/index.html">Tutti i servizi</a><a href="{hu}#metodo">Il metodo</a><a href="{hu}#perchi">Per chi lavoriamo</a><a href="{root}blog/index.html">Blog</a><a href="#consulenza">Consulenza gratuita</a></div>
+      <div class="fl"><a href="{root}servizi/index.html">Tutti i servizi</a><a href="{root}all-upside-challenge.html">All Upside Challenge</a><a href="{hu}#metodo">Il metodo</a><a href="{hu}#perchi">Per chi lavoriamo</a><a href="{root}blog/index.html">Blog</a><a href="#consulenza">Consulenza gratuita</a></div>
     </div>
     <div>
       <h4>Contatti</h4>
@@ -493,8 +494,56 @@ for a in ARTICLES:
     ]
     write(path, page(head(a["seo"], a["desc"], path, R, ld, "article"), body))
 
+# ======================================================= ALL UPSIDE CHALLENGE
+def build_aus():
+    s = open(os.path.join(B, "all-upside-challenge.html"), encoding="utf-8").read()
+    path = "all-upside-challenge.html"
+    def rp(a, c, n=1):
+        nonlocal s
+        assert s.count(a) == n, (a[:60], s.count(a))
+        s = s.replace(a, c)
+    faqs = re.findall(r'<summary>(.*?)<span class="pm".*?<p class="ans">(.*?)</p>', s, re.S)
+    ld = [
+      {"@context": "https://schema.org", "@type": "Service", "name": "All Upside Challenge", "url": BASE + path,
+       "description": "Costruiamo e lanciamo il sistema che porta potenziali clienti alla tua attività: landing page, tracciamenti, Meta Ads, contenuti, CRM e automazioni WhatsApp. Ci paghi solo se sei soddisfatto e vuoi continuare; tu copri solo il budget pubblicitario.",
+       "provider": {"@id": ORG_ID, "@type": "ProfessionalService", "name": "bivio.studio", "url": BASE},
+       "areaServed": {"@type": "Country", "name": "Italia"}, "inLanguage": "it-IT",
+       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/LimitedAvailability", "validThrough": "2026-12-31",
+                  "description": "Il lavoro si paga solo se il cliente è soddisfatto e decide di continuare. Budget pubblicitario a carico del cliente."}},
+      faq_ld([(html.unescape(q), html.unescape(a)) for q, a in faqs]),
+      crumbs_ld([("Home", ""), ("All Upside Challenge", path)]),
+    ]
+    lds = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
+    rp('<meta property="og:title"', f"""<link rel="canonical" href="{BASE}{path}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bivio.studio">
+<meta property="og:locale" content="it_IT">
+<meta property="og:url" content="{BASE}{path}">
+<meta name="theme-color" content="#14161B">
+{lds}
+<meta property="og:title\"""")
+    rp('href="https://biviostudio.it"', 'href="index.html"', 3)
+    rp('C.so Italia 20 · Marano (NA)', 'Operiamo in tutta Italia')
+    # Netlify Forms
+    rp('<form id="form" novalidate>', """<form id="form" name="all-upside-challenge" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="all-upside-challenge">
+        <input type="hidden" name="pagina" value="All Upside Challenge">
+        <input type="hidden" name="inviato_il" value="">
+        <p hidden><label>Non compilare questo campo: <input name="bot-field"></label></p>""")
+    rp("""var CONFIG = { endpoint: '' };""", """var CONFIG = { endpoint: '/' }; // '/' = Netlify Forms (modulo "all-upside-challenge")
+// In anteprima locale o su Claude non c'è un server che riceve: si mostra solo la conferma.
+var PREVIEW = location.protocol === 'file:' || /claude|anthropic/i.test(location.hostname);""")
+    rp("data.privacy = priv.checked; data.pagina='All Upside Challenge'; data.inviato_il=new Date().toISOString();",
+       "data.privacy = priv.checked ? 'si' : 'no'; data.pagina='All Upside Challenge'; data.inviato_il=new Date().toLocaleString('it-IT',{dateStyle:'short',timeStyle:'short'});")
+    rp("if(!CONFIG.endpoint){ setTimeout(done,900); return; }", "if(!CONFIG.endpoint || PREVIEW){ setTimeout(done,900); return; }\n    if(data['bot-field']){ done(); return; }")
+    rp("fetch(CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})",
+       "var body=new URLSearchParams(); Object.keys(data).forEach(function(k){ body.append(k, data[k]); });\n    fetch(CONFIG.endpoint,{method:'POST',headers:{'Accept':'application/json'},body:body})")
+    write(path, s)
+    return s
+
 # ======================================================= SEO files
-urls = [("", "1.0", "2026-10-27"), ("servizi/index.html", "0.9", "2026-10-27"), ("blog/index.html", "0.7", ARTICLES[0]["date"])]
+urls = [("", "1.0", "2026-10-27"), ("all-upside-challenge.html", "0.9", "2026-11-05"), ("servizi/index.html", "0.9", "2026-10-27"), ("blog/index.html", "0.7", ARTICLES[0]["date"])]
 urls += [(f"servizi/{s}.html", "0.9", "2026-10-27") for s in ORDER]
 urls += [(f"blog/{a['slug']}.html", "0.6", a["date"]) for a in ARTICLES]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod><priority>{p}</priority></url>\n" for u, p, d in urls) + "</urlset>\n"
@@ -502,6 +551,8 @@ write("sitemap.xml", sm)
 write("robots.txt", f"User-agent: *\nAllow: /\n\n# Crawler dei motori di ricerca e degli assistenti AI ammessi (GEO)\nUser-agent: GPTBot\nAllow: /\nUser-agent: OAI-SearchBot\nAllow: /\nUser-agent: ClaudeBot\nAllow: /\nUser-agent: PerplexityBot\nAllow: /\nUser-agent: Google-Extended\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n")
 llms = f"# bivio.studio\n\n> Growth Marketing Agency che opera in tutta Italia. Aiuta PMI ed e-commerce a crescere con un metodo in tre fasi: Struttura (processi, CRM, dati, automazioni e AI), Community (social media e contenuti) e Performance (Meta Ads, Google Ads, e-commerce). Offre una consulenza gratuita di analisi.\n\nContatti: tel. 081 185 22008, info@biviostudio.it. Area servita: tutta Italia.\n\n## Servizi\n\n"
 llms += "".join(f"- [{SERVICE_BY_SLUG[s]['h1']}]({BASE}servizi/{s}.html): {SERVICE_BY_SLUG[s]['card']}\n" for s in ORDER)
+llms += f"\n## Iniziative\n\n- [All Upside Challenge]({BASE}all-upside-challenge.html): sistema completo di acquisizione clienti (landing page, tracciamenti, Meta Ads, contenuti, CRM e automazioni WhatsApp) costruito gratuitamente: il cliente paga solo se soddisfatto e copre il budget pubblicitario. Solo 3 posti fino a fine 2026.\n"
 llms += "\n## Blog\n\n" + "".join(f"- [{a['title']}]({BASE}blog/{a['slug']}.html): {a['desc']}\n" for a in ARTICLES)
 write("llms.txt", llms)
+build_aus()
 print("ok", len(SERVICES), "servizi,", len(ARTICLES), "articoli")

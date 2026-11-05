@@ -6,6 +6,7 @@ Sito statico di bivio.studio, Growth Marketing Agency per PMI ed e-commerce in t
 
 ```
 index.html              Home (con modulo di consulenza)
+all-upside-challenge.html  Landing della All Upside Challenge (con modulo di candidatura)
 servizi/index.html      L'ecosistema dei 10 servizi
 servizi/*.html          Pagine dei singoli servizi
 blog/index.html         Elenco articoli con filtri
@@ -28,6 +29,7 @@ Testi di servizi e articoli si trovano in `sorgenti/`:
 - `articles1.py`, `articles2.py` — gli articoli del blog
 - `source_home.html` — le sezioni della home
 - `extra.css`, `bivio.js` — stili aggiuntivi e script
+- `all-upside-challenge.html` — la landing della challenge; `build.py` aggiunge SEO, link al sito e collegamento a Netlify Forms
 
 Dopo una modifica, rigenera tutte le pagine dalla cartella principale del repo:
 
@@ -38,7 +40,7 @@ python3 sorgenti/build.py
 ## Da completare prima della messa online
 
 - **Dominio**: gli URL canonici, la sitemap e i dati strutturati usano `https://www.biviostudio.it/`. Se il dominio è diverso, cambia `BASE` in `sorgenti/build.py` e rigenera.
-- **Modulo di contatto (Netlify Forms)**: il modulo si chiama `consulenza` ed è già configurato per Netlify (`data-netlify="true"`, campo nascosto `form-name`, honeypot anti-spam). Su Netlify attiva *Site configuration → Forms → Enable form detection*, poi rifai il deploy. Le notifiche si impostano in *Forms → Form notifications*.
+- **Moduli (Netlify Forms)**: i moduli sono due, `consulenza` (home, servizi, blog) e `all-upside-challenge` (landing della challenge). Il modulo `consulenza` ed è già configurato per Netlify (`data-netlify="true"`, campo nascosto `form-name`, honeypot anti-spam). Su Netlify attiva *Site configuration → Forms → Enable form detection*, poi rifai il deploy. Le notifiche si impostano in *Forms → Form notifications*.
 - **Altri servizi**: in alternativa, in `sorgenti/bivio.js` inserisci l'indirizzo del webhook (Make, Zapier) o del servizio di invio (Web3Forms, Formspree) nella variabile `ENDPOINT`, e per Web3Forms la chiave in `ACCESS_KEY`. Poi rigenera con `python3 sorgenti/build.py`. Finché `ENDPOINT` è vuota, il modulo mostra il riepilogo ma non invia la richiesta. I dati arrivano come modulo standard (form-urlencoded), con un campo per ogni domanda.
 - **Dati legali**: P.IVA, privacy policy e cookie policy nel footer.
 - **Immagine di anteprima** per le condivisioni social (`og:image`).
