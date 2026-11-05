@@ -558,3 +558,8 @@ footer .svc-links{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
 .nav .menu a.hot:hover,.nav .menu a.hot[aria-current="page"]{color:var(--o)}
 @keyframes hotPulse{0%{box-shadow:0 0 0 0 rgba(255,197,61,.55)}70%{box-shadow:0 0 0 8px rgba(255,197,61,0)}100%{box-shadow:0 0 0 0 rgba(255,197,61,0)}}
 @media(max-width:1120px){.nav .menu{display:none}.burger{display:grid}}
+
+/* link legali */
+.legal a{text-decoration:none;transition:color .2s}
+.legal a:hover{color:var(--o)}
+.consent a{color:inherit;text-underline-offset:2px}

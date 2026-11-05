@@ -65,7 +65,7 @@ ORG = {
   "alternateName": "Bivio Studio", "url": BASE,
   "description": "Growth Marketing Agency che aiuta PMI ed e-commerce a crescere con un metodo in tre fasi: struttura dei processi, community e performance marketing.",
   "slogan": "Prima il sistema, poi la crescita.",
-  "telephone": "+39 081 18522008", "email": "info@biviostudio.it",
+  "telephone": "+39 081 18522008", "email": "info@biviostudio.it", "vatID": "IT11061321219",
   "address": {"@type": "PostalAddress", "addressCountry": "IT"},
   "areaServed": {"@type": "Country", "name": "Italia"},
   "knowsAbout": ["Growth marketing", "Performance marketing", "Meta Ads", "Google Ads", "Gestione social media", "Content creation", "Video editing", "E-commerce", "Sviluppo siti web", "Automazione dei processi", "Intelligenza artificiale", "CRM", "Data analytics", "Formazione marketing"],
@@ -159,7 +159,7 @@ def footer(root):
       <h4>Contatti</h4>
       <div class="fl"><span>081 185 22008</span><span>info@biviostudio.it</span><span>Operiamo in tutta Italia, in presenza e da remoto</span></div>
     </div>
-    <div class="legal"><span>© 2026 bivio.studio · P.IVA da inserire</span><span>Privacy policy · Cookie policy</span></div>
+    <div class="legal"><span>© 2026 bivio.studio · P.IVA 11061321219</span><span><a href="https://www.iubenda.com/privacy-policy/72769083" target="_blank" rel="noopener">Privacy policy</a> · <a href="https://www.iubenda.com/privacy-policy/72769083/cookie-policy" target="_blank" rel="noopener">Cookie policy</a></span></div>
   </div>
 </footer>
 <div class="mbar" id="mbar"><a class="btn" href="#consulenza">Prenota la consulenza gratuita <span class="arr">→</span></a></div>
