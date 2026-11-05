@@ -240,7 +240,11 @@ GTM_BODY = f"""<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 """ if GTM_ID else ""
-HEAD_TOP = IUBENDA + GTM_HEAD
+# ID univoco della visualizzazione di pagina, letto da GTM prima del page_view:
+# serve a Meta per deduplicare il PageView inviato dal browser e quello inviato dal server (Stape).
+PAGE_EVENT_ID = """<script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_event_id:'pv_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)});</script>
+"""
+HEAD_TOP = IUBENDA + PAGE_EVENT_ID + GTM_HEAD
 
 def page(headpart, body, full=True):
     if not full:
