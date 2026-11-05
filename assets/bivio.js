@@ -124,6 +124,29 @@
     $$('.posts .post').forEach(function(p){ p.hidden = !(c==='all' || p.dataset.cat===c); });
   }); });
 
+  /* ===== Tracciamento: eventi inviati a Google Tag Manager (dataLayer) =====
+     cta_click       clic su un pulsante che porta al modulo o alla All Upside Challenge
+     contact_click   clic su telefono, WhatsApp o email
+     form_start      primo campo compilato nel modulo
+     form_step       passaggio allo step successivo del modulo
+     generate_lead   richiesta inviata con successo (con event_id e user_data)  */
+  window.dataLayer = window.dataLayer || [];
+  function dl(ev, p){ var o = {event: ev}; for(var k in (p||{})) o[k] = p[k]; window.dataLayer.push(o); }
+  function where(el){ var s = el.closest('section,header,footer,.mbar,.mnav,.toc,.art-cta'); return s ? (s.id || String(s.className).split(' ')[0]) : 'pagina'; }
+  var PAGE_TYPE = (function(p){ return /\/servizi\/index\.html$|\/servizi\/$/.test(p) ? 'servizi' : /\/servizi\//.test(p) ? 'servizio' : /\/blog\/index\.html$|\/blog\/$/.test(p) ? 'blog' : /\/blog\//.test(p) ? 'articolo' : 'home'; })(location.pathname);
+  var SERVICE = PAGE_TYPE === 'servizio' ? (location.pathname.match(/\/servizi\/([a-z0-9-]+)\.html$/) || [])[1] || '' : '';
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a'); if(!a) return;
+    var h = a.getAttribute('href') || '', txt = (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    if(/#consulenza$/.test(h)) dl('cta_click', {cta_text: txt, cta_location: where(a), cta_destination: 'consulenza', page_type: PAGE_TYPE});
+    else if(/all-upside-challenge\.html/.test(h)) dl('cta_click', {cta_text: txt, cta_location: where(a), cta_destination: 'all-upside-challenge', page_type: PAGE_TYPE});
+    else if(/^tel:/.test(h)) dl('contact_click', {contact_method: 'telefono'});
+    else if(/wa\.me|api\.whatsapp/.test(h)) dl('contact_click', {contact_method: 'whatsapp'});
+    else if(/^mailto:/.test(h)) dl('contact_click', {contact_method: 'email'});
+  }, true);
+  function e164(v){ var d = (v || '').replace(/[^\d+]/g, ''); if(!d) return ''; if(d.charAt(0) === '+') return d; if(d.indexOf('00') === 0) return '+' + d.slice(2); return '+39' + d; }
+  function eventId(){ return 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
+
   /* Barra CTA mobile */
   var mbar = $('#mbar'), formSec = $('#consulenza'), ticking=false;
   function onScroll(){
@@ -173,8 +196,10 @@
     var f = e.target.closest('.field'); if(f && f.classList.contains('bad') && fieldOk(e.target)) f.classList.remove('bad');
     var g = e.target.closest('.group'); if(g && g.classList.contains('bad') && e.target.checked) g.classList.remove('bad');
     saveDraft();
+    if(!started){ started = true; dl('form_start', {form_name: 'consulenza', page_type: PAGE_TYPE, service: SERVICE}); }
   });
   form.addEventListener('change', saveDraft);
+  var started = false;
 
   function show(i, back){
     steps[cur].classList.remove('on','back');
@@ -183,6 +208,7 @@
     bars.forEach(function(b,j){b.classList.toggle('done', j<=cur);});
     $('#stepn').textContent = cur+1; $('#stepname').textContent = steps[cur].dataset.name;
     prev.hidden = cur===0;
+    if(!back) dl('form_step', {form_name: 'consulenza', form_step: cur+1, form_step_name: steps[cur].dataset.name});
     next.innerHTML = cur===steps.length-1 ? 'Richiedi la consulenza <span class="arr">→</span>' : 'Continua <span class="arr">→</span>';
     var top = $('.fcard').getBoundingClientRect().top;
     if(top < 70) scrollBy({top: top-90, behavior: reduce?'auto':'smooth'});
@@ -237,6 +263,12 @@
       $('#pnote').hidden = sent;
       form.hidden = true; $('#success').classList.add('on');
       try{ localStorage.removeItem(KEY); }catch(e){}
+      if(sent && !data['bot-field']){
+        dl('generate_lead', {form_name: 'consulenza', event_id: eventId(), page_type: PAGE_TYPE, service: SERVICE,
+          settore: data.settore || '', obiettivo: data.obiettivo || '', budget: data.budget || '', spesa_ads: data.spesa_ads || '',
+          user_data: {email: (data.email || '').trim().toLowerCase(), phone_number: e164(data.telefono),
+                      address: {first_name: (data.nome || '').trim().toLowerCase(), last_name: (data.cognome || '').trim().toLowerCase(), country: 'it'}}});
+      }
       var t = $('.fcard').getBoundingClientRect().top; if(t<70) scrollBy({top:t-90,behavior:reduce?'auto':'smooth'});
     };
     if(!ENDPOINT || PREVIEW){ done(false); return; }

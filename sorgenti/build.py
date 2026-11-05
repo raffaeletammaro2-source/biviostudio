@@ -222,10 +222,26 @@ def crumbs_ld(items):
 # Banner cookie iubenda: inserito subito dopo <head> in ogni pagina
 IUBENDA = open(os.path.join(B, "iubenda.html"), encoding="utf-8").read()
 
+# Google Tag Manager: inserisci l'ID del contenitore (es. "GTM-ABC1234") e rigenera il sito.
+GTM_ID = ""
+GTM_HEAD = f"""<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
+new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+}})(window,document,'script','dataLayer','{GTM_ID}');</script>
+<!-- End Google Tag Manager -->
+""" if GTM_ID else ""
+GTM_BODY = f"""<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+""" if GTM_ID else ""
+HEAD_TOP = IUBENDA + GTM_HEAD
+
 def page(headpart, body, full=True):
     if not full:
         return headpart + body
-    return f'<!doctype html>\n<html lang="it">\n<head>\n{IUBENDA}<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n{headpart}</head>\n<body>\n{body}</body>\n</html>\n'
+    return f'<!doctype html>\n<html lang="it">\n<head>\n{HEAD_TOP}<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n{headpart}</head>\n<body>\n{GTM_BODY}{body}</body>\n</html>\n'
 
 def write(path, txt):
     open(os.path.join(OUT, path), "w", encoding="utf-8").write(txt)
@@ -517,7 +533,28 @@ def build_aus():
       crumbs_ld([("Home", ""), ("All Upside Challenge", path)]),
     ]
     lds = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
-    rp('<head>\n', '<head>\n' + IUBENDA)
+    rp('<head>\n', '<head>\n' + HEAD_TOP)
+    rp('<body>\n', '<body>\n' + GTM_BODY)
+    # Tracciamento: lead solo se inviato davvero, più form_start, cta_click e contact_click
+    rp("window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'candidatura_all_upside', settore:data.settore});",
+       "window.dataLayer=window.dataLayer||[]; if(CONFIG.endpoint && !PREVIEW && !data['bot-field']){ var nn=(data.nome_cognome||'').trim().toLowerCase().split(/\\s+/), ph=(data.whatsapp||'').replace(/[^\\d+]/g,''); ph = ph.charAt(0)==='+' ? ph : (ph.indexOf('00')===0 ? '+'+ph.slice(2) : '+39'+ph); window.dataLayer.push({event:'generate_lead', form_name:'all-upside-challenge', event_id:'lead_'+Date.now()+'_'+Math.random().toString(36).slice(2,8), page_type:'landing', settore:data.settore, user_data:{email:(data.email||'').trim().toLowerCase(), phone_number:ph, address:{first_name:nn[0]||'', last_name:nn.slice(1).join(' '), country:'it'}}}); }")
+    rp('</body>', """<script>
+/* Tracciamento: form_start, cta_click, contact_click per Google Tag Manager */
+(function(){
+  window.dataLayer = window.dataLayer || [];
+  var f = document.getElementById('form'), started = false;
+  f.addEventListener('input', function(){ if(!started){ started = true; dataLayer.push({event:'form_start', form_name:'all-upside-challenge', page_type:'landing'}); } });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a'); if(!a) return;
+    var h = a.getAttribute('href') || '', t = (a.textContent || '').replace(/\\s+/g, ' ').trim().slice(0, 80);
+    var loc = a.closest('section,header,footer,.mcta'); loc = loc ? (loc.id || String(loc.className).split(' ')[0]) : 'pagina';
+    if(h === '#candidatura') dataLayer.push({event:'cta_click', cta_text:t, cta_location:loc, cta_destination:'candidatura', page_type:'landing'});
+    else if(/wa\\.me/.test(h)) dataLayer.push({event:'contact_click', contact_method:'whatsapp'});
+    else if(/^mailto:/.test(h)) dataLayer.push({event:'contact_click', contact_method:'email'});
+  }, true);
+})();
+</script>
+</body>""")
     rp('<meta property="og:title"', f"""<link rel="canonical" href="{BASE}{path}">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website">

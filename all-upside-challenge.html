@@ -741,7 +741,7 @@ var PREVIEW = location.protocol === 'file:' || /claude|anthropic/i.test(location
     var data={}; new FormData(form).forEach(function(v,k){ data[k]=v; });
     data.privacy = priv.checked ? 'si' : 'no'; data.pagina='All Upside Challenge'; data.inviato_il=new Date().toLocaleString('it-IT',{dateStyle:'short',timeStyle:'short'});
     function done(){
-      window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'candidatura_all_upside', settore:data.settore});
+      window.dataLayer=window.dataLayer||[]; if(CONFIG.endpoint && !PREVIEW && !data['bot-field']){ var nn=(data.nome_cognome||'').trim().toLowerCase().split(/\s+/), ph=(data.whatsapp||'').replace(/[^\d+]/g,''); ph = ph.charAt(0)==='+' ? ph : (ph.indexOf('00')===0 ? '+'+ph.slice(2) : '+39'+ph); window.dataLayer.push({event:'generate_lead', form_name:'all-upside-challenge', event_id:'lead_'+Date.now()+'_'+Math.random().toString(36).slice(2,8), page_type:'landing', settore:data.settore, user_data:{email:(data.email||'').trim().toLowerCase(), phone_number:ph, address:{first_name:nn[0]||'', last_name:nn.slice(1).join(' '), country:'it'}}}); }
       document.getElementById('fcard').classList.add('done');
       document.getElementById('fcard').scrollIntoView({behavior:'smooth',block:'center'});
     }
@@ -755,6 +755,22 @@ var PREVIEW = location.protocol === 'file:' || /claude|anthropic/i.test(location
     fetch(CONFIG.endpoint,{method:'POST',headers:{'Accept':'application/json'},body:body})
       .then(function(r){ if(!r.ok) throw 0; done(); }).catch(fail);
   });
+})();
+</script>
+<script>
+/* Tracciamento: form_start, cta_click, contact_click per Google Tag Manager */
+(function(){
+  window.dataLayer = window.dataLayer || [];
+  var f = document.getElementById('form'), started = false;
+  f.addEventListener('input', function(){ if(!started){ started = true; dataLayer.push({event:'form_start', form_name:'all-upside-challenge', page_type:'landing'}); } });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a'); if(!a) return;
+    var h = a.getAttribute('href') || '', t = (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    var loc = a.closest('section,header,footer,.mcta'); loc = loc ? (loc.id || String(loc.className).split(' ')[0]) : 'pagina';
+    if(h === '#candidatura') dataLayer.push({event:'cta_click', cta_text:t, cta_location:loc, cta_destination:'candidatura', page_type:'landing'});
+    else if(/wa\.me/.test(h)) dataLayer.push({event:'contact_click', contact_method:'whatsapp'});
+    else if(/^mailto:/.test(h)) dataLayer.push({event:'contact_click', contact_method:'email'});
+  }, true);
 })();
 </script>
 </body>

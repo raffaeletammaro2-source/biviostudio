@@ -43,3 +43,17 @@ python3 sorgenti/build.py
 - **Moduli (Netlify Forms)**: i moduli sono due, `consulenza` (home, servizi, blog) e `all-upside-challenge` (landing della challenge). Entrambi sono già configurati per Netlify (`data-netlify="true"`, campo nascosto `form-name`, honeypot anti-spam). Su Netlify attiva *Site configuration → Forms → Enable form detection*, poi rifai il deploy. Le notifiche si impostano in *Forms → Form notifications*.
 - **Altri servizi**: in alternativa, in `sorgenti/bivio.js` inserisci l'indirizzo del webhook (Make, Zapier) o del servizio di invio (Web3Forms, Formspree) nella variabile `ENDPOINT`, e per Web3Forms la chiave in `ACCESS_KEY`. Poi rigenera con `python3 sorgenti/build.py`. Finché `ENDPOINT` è vuota, il modulo mostra il riepilogo ma non invia la richiesta. I dati arrivano come modulo standard (form-urlencoded), con un campo per ogni domanda.
 - **Immagine di anteprima** per le condivisioni social (`og:image`).
+
+## Tracciamento (Google Tag Manager)
+
+Inserisci l'ID del contenitore in `GTM_ID` in `sorgenti/build.py` e rigenera: lo snippet viene aggiunto in tutte le pagine subito dopo il banner cookie di iubenda.
+
+Il sito invia questi eventi al `dataLayer`:
+
+| Evento | Quando | Parametri |
+|---|---|---|
+| `cta_click` | clic su un pulsante verso il modulo o la challenge | `cta_text`, `cta_location`, `cta_destination`, `page_type` |
+| `contact_click` | clic su telefono, WhatsApp o email | `contact_method` |
+| `form_start` | primo campo compilato | `form_name`, `page_type`, `service` |
+| `form_step` | passaggio allo step successivo (modulo consulenza) | `form_name`, `form_step`, `form_step_name` |
+| `generate_lead` | richiesta inviata con successo | `form_name` (`consulenza` o `all-upside-challenge`), `event_id`, `page_type`, `service`, `settore`, `obiettivo`, `budget`, `spesa_ads`, `user_data` (email, telefono, nome per Enhanced Conversions e Advanced Matching) |
